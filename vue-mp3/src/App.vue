@@ -5,7 +5,7 @@
 <script lang="ts">
 import { ref } from "vue";
 // import Main from "./views/Main.vue";
-import NavBar from "./components/NavBar.vue";
+import NavBar from "./components/NavBar/NavBar.vue";
 export default {
   components: {
     NavBar

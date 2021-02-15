@@ -1,6 +1,7 @@
+/* eslint-disable vue/require-default-prop */
 <template>
   <div class="col s12">
-    <div class="card post">
+    <div class="card post" v-if="post">
       <div
         class="card-image waves-effect waves-block waves-light"
         v-if="isImage"
@@ -26,14 +27,18 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script>
 import { computed, toRefs } from "vue";
 export default {
   props: {
+    // eslint-disable-next-line vue/require-default-prop
     post: Object
   },
   setup(props) {
+    // props.post로도 되는지 확인하기..
+    // console.log(props.post);
     const { post } = toRefs(props);
+    if (!post) return;
     // 함수로 만들면 계속 렌더한다 -> computed로 하자
     const isVideo = computed(
       () => post.value.media || post.value.url.match(/mp4|gifv|mkv|mov|webm$/)
@@ -46,10 +51,8 @@ export default {
         return post.value.media.reddit_video.scrubber_media_url;
       const parts = post.value.url.split(".");
       parts.pop();
-      return parts
-        .concat(".mp4")
-        .join(".")
-        .replace("..", ".");
+      return parts.concat(".mp4").join(".");
+      // .replace("..", ".");
     });
     return {
       isImage,
@@ -59,7 +62,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .post {
   height: 100%;
 }
