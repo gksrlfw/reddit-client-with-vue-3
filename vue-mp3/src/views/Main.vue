@@ -1,22 +1,16 @@
 <template lang="">
-  <SubReddit :name="name" />
+  <SubReddit :name="state.subreddit" />
 </template>
 <script lang="ts">
-import SubReddit from "../components/RedditPost/SubReddit.vue";
-
+import SubReddit from "@/components/RedditPost/SubReddit.vue";
+import state from "@/store/diy";
 export default {
   components: {
     SubReddit
   },
   setup() {
-    const name = "r/korea";
-    // const postState = usePosts("aww");
-    // const posts = computed(() =>
-    //   postState.data.map((child: any) => child.data)
-    // );
-
     return {
-      name
+      state
     };
   }
 };

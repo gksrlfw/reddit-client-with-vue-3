@@ -1,7 +1,7 @@
 <template lang="">
   <nav>
     <div class="nav-wrapper light-blue lighten-4">
-      <form>
+      <form @submit.prevent="updateSubreddit">
         <div class="input-field">
           <input
             id="subredditInput"
@@ -9,7 +9,7 @@
             ref="subreddit"
             type="search"
             class="autocomplete"
-            required
+            autocomplete="off"
           />
           <label class="label-icon" for="search"
             ><i class="material-icons">search</i></label
@@ -25,17 +25,20 @@
 import { onMounted, ref, watch } from "vue";
 import M from "@/../public/js/materialize.js";
 import api from "@/apis/api.ts";
+import state from "@/store/diy";
 
 export default {
   setup() {
     const searchTerm = ref("");
     const subreddit = ref(null);
-
+    let instances;
+    let debounceTimeout;
     onMounted(() => {
-      const instances = M.Autocomplete.init(subreddit.value, {
+      instances = M.Autocomplete.init(subreddit.value, {
         data: {},
         onAutocomplete(result) {
           console.log(result);
+          state.subreddit.value = `r/${result}`;
         }
       });
 
@@ -53,21 +56,27 @@ export default {
         instances.open();
       }
 
-      let debounceTimeout;
       watch(
         () => searchTerm.value,
         () => {
           clearTimeout(debounceTimeout);
           debounceTimeout = setTimeout(async () => {
             await getResult();
-          }, 500);
+          }, 100);
         }
       );
     });
 
+    const updateSubreddit = () => {
+      clearTimeout(debounceTimeout);
+      state.subreddit.value = `r/${searchTerm.value}`;
+      if (instances) instances.close();
+    };
+
     return {
       searchTerm,
-      subreddit
+      subreddit,
+      updateSubreddit
     };
   }
 };

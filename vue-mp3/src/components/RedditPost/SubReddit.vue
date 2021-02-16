@@ -28,7 +28,12 @@ export default {
   },
   setup(props) {
     const postState = usePosts(props.name);
-    const posts = computed(() => postState.data.map(child => child.data));
+    const posts = computed(() =>
+      // filter out nsfw posts (over18)
+      postState.data
+        .filter(child => !child.data.over_18)
+        .map(child => child.data)
+    );
 
     return {
       postState,

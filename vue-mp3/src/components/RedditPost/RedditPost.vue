@@ -41,14 +41,17 @@ export default {
     if (!post) return;
     // 함수로 만들면 계속 렌더한다 -> computed로 하자
     const isVideo = computed(
-      () => post.value.media || post.value.url.match(/mp4|gifv|mkv|mov|webm$/)
+      () =>
+        (post.value.secure_media && post.value.secure_media.reddit_video) ||
+        post.value.url.match(/mp4|gifv|mkv|mov|webm$/)
     );
     const isImage = computed(() =>
       post.value.url.match(/bmp|webp|png|jpg|jpeg|gif$/)
     );
+
     const videoUrl = computed(() => {
-      if (post.value.media && post.value.media.reddit_video)
-        return post.value.media.reddit_video.scrubber_media_url;
+      if (post.value.secure_media && post.value.secure_media.reddit_video)
+        return post.value.media.reddit_video.fallback_url;
       const parts = post.value.url.split(".");
       parts.pop();
       return parts.concat(".mp4").join(".");

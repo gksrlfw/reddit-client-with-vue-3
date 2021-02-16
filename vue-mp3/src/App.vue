@@ -1,6 +1,8 @@
 <template>
   <NavBar />
+  <!-- <div class="grey darken-4"> -->
   <router-view class="container" />
+  <!-- </div> -->
 </template>
 <script lang="ts">
 import { ref } from "vue";
