@@ -1,7 +1,20 @@
 /* eslint-disable vue/require-default-prop */
 <template>
+  <!-- 1:57 -->
   <div class="col s12">
     <div class="card post" v-if="post">
+      <div class="card-content title-info">
+        <span class="card-title vertical-center">
+          <span class="new badge blue white-text score">{{ post.score }}</span>
+          {{ post.title }}</span
+        >
+        <p>
+          Posted {{ postTime }} by
+          <a :href="`https://www.reddit.com/u/${post.author}`">{{
+            post.author
+          }}</a>
+        </p>
+      </div>
       <div
         class="card-image waves-effect waves-block waves-light"
         v-if="isImage"
@@ -17,11 +30,10 @@
         </video>
       </div>
       <div class="card-content">
-        <span class="card-title activator grey-text text-darken-4">{{
-          post.title
-        }}</span>
         <p>
-          <a :href="`https://www.reddit.com/${post.permalink}`">Comments</a>
+          <a :href="`https://www.reddit.com/${post.permalink}`">{{
+            post.num_comments
+          }}</a>
         </p>
       </div>
     </div>
@@ -29,6 +41,7 @@
 </template>
 <script>
 import { computed, toRefs } from "vue";
+import * as timeago from "timeago.js";
 export default {
   props: {
     // eslint-disable-next-line vue/require-default-prop
@@ -57,10 +70,16 @@ export default {
       return parts.concat(".mp4").join(".");
       // .replace("..", ".");
     });
+
+    const postTime = computed(() => {
+      return timeago.format(post.value.created_utc * 1000);
+    });
+    // console.log(postTime, post.created);
     return {
       isImage,
       isVideo,
-      videoUrl
+      videoUrl,
+      postTime
     };
   }
 };
@@ -71,5 +90,19 @@ export default {
 }
 .video {
   width: 100%;
+}
+.title-info {
+  padding-bottom: 0px;
+}
+.score {
+  float: none;
+  border-radius: 10px;
+  margin-right: 8px;
+  padding: 6px;
+}
+
+.vertical-center {
+  display: flex;
+  align-items: center;
 }
 </style>
