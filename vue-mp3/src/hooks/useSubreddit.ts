@@ -1,4 +1,4 @@
-import api from "@/apis/api";
+import api from "@/lib/api";
 import { reactive, Ref, watch } from "vue";
 
 export default function useSubreddit(subredditUrl: Ref<string>) {
@@ -8,7 +8,7 @@ export default function useSubreddit(subredditUrl: Ref<string>) {
     data: null
   });
 
-  watch(subredditUrl, async () => {
+  async function loadSubreddit() {
     state.loading = true;
     state.error = '';
     state.data = null;
@@ -22,8 +22,8 @@ export default function useSubreddit(subredditUrl: Ref<string>) {
     finally {
       state.loading = false;
     }
-  }, { immediate: true });
-  console.log(state);
-  
+  }
+
+  watch(subredditUrl, async () => await loadSubreddit(), { immediate: true });
   return state;
 }

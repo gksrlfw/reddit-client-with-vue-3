@@ -23,18 +23,13 @@
   </div>
 </template>
 <script>
-import { toRefs } from "vue";
 export default {
   props: {
-    subredditInfo: Object
-  },
-  // setup(props) {
-  //   const { subredditInfo } = toRefs(props);
-  //   console.log('props:::', subredditInfo);
-  //   return {
-  //     subredditInfo
-  //   };
-  // }
+    subredditInfo: {
+      type: Object,
+      required: true
+    }
+  }
 };
 </script>
 <style lang=""></style>

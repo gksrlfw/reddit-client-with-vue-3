@@ -4,25 +4,28 @@
     <section class="info">
       <CircleSpinner v-if="subredditInfo.loading" />
       <ErrorComponent :error="subredditInfo.error" v-if="subredditInfo.error" />
-      <RedditPostInfo :subredditInfo="subredditInfo" v-if="!subredditInfo.error && !subredditInfo.loading"/>
+      <RedditPostInfo
+        :subreddit-info="subredditInfo"
+        v-if="subredditInfo && !subredditInfo.error && !subredditInfo.loading"
+      />
     </section>
 
     <!-- reddit post -->
-    <section v-if="postInfo && posts">
-      <LineSpinner v-if="postInfo.loading" />
-      <ErrorComponent :error="postInfo.error" v-if="postInfo.error" />
-      <RedditPost v-for="post in posts" :key="post.id" :post="post" />
+    <section v-if="postsInfo && posts">
+      <LineSpinner v-if="postsInfo.loading" />
+      <ErrorComponent :error="postsInfo.error" v-if="postsInfo.error" />
+      <RedditPost :post="post" v-for="post in posts" :key="post.id" />
     </section>
   </div>
 </template>
 <script>
 import { computed, watch } from "vue";
 import { useRoute } from "vue-router";
-import usePosts from "@/hooks/usePosts";
-import useSubreddit from "@/hooks/useSubreddit";
-import LineSpinner from "@/components/Spinner/LineSpinner";
-import CircleSpinner from "@/components/Spinner/CircleSpinner";
-import ErrorComponent from "@/components/Error/ErrorComponent";
+import usePosts from "@/hooks/usePosts.js";
+import useSubreddit from "@/hooks/useSubreddit.js";
+import LineSpinner from "@/components/Spinner/LineSpinner.vue";
+import CircleSpinner from "@/components/Spinner/CircleSpinner.vue";
+import ErrorComponent from "@/components/Error/ErrorComponent.vue";
 import RedditPost from "@/components/RedditPost/RedditPost.vue";
 import RedditPostInfo from "@/components/RedditPostInfo/RedditPostInfo.vue";
 
@@ -37,24 +40,24 @@ export default {
   setup() {
     const route = useRoute();
     const subredditUrl = computed(() => `/r/${route.params.subreddit}`);
-    const postInfo = usePosts(subredditUrl);
+    const postsInfo = usePosts(subredditUrl);
     const subredditInfo = useSubreddit(subredditUrl);
-    const posts = computed(() =>
-      postInfo.data
-        .filter(child => !child.data.over_18)
-        .map(child => child.data)
-    );
 
     watch(
       subredditInfo,
       () => {
-        document.title = subredditInfo.data?.title || "Reddit";
+        document.title = subredditInfo.data?.title || subredditUrl.value;
       },
       { immediate: true }
     );
+    const posts = computed(() =>
+      postsInfo.data
+        .filter(child => !child.data.over_18)
+        .map(child => child.data)
+    );
 
     return {
-      postInfo,
+      postsInfo,
       posts,
       subredditInfo
     };

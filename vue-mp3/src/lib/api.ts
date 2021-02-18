@@ -1,13 +1,17 @@
+import { RedditPostResponse } from "@/interface/RedditPostResponse";
+
 export default {
-	async getPosts(subreddit: string, params?: string) {
+	async getPosts(subreddit: string, params?: string): Promise<RedditPostResponse> {
 		const urlParams = new URLSearchParams(params);
 		const url = `https://www.reddit.com/${subreddit}.json?${urlParams}`;
 		const response = await fetch(url, { headers: { accept: 'application/json' }});
-		const data = await response.json();
-		if(response.ok) return data;
-		const error = new Error(data.message || 'Faild to get posts.');
-		// error.response = data;
-		throw error;
+		const data: RedditPostResponse = await response.json();
+		console.log('11111111111111111', data);
+		
+		if(data instanceof Response)  {
+			const error = new Error('Faild to get posts.');
+		}
+		return data;
 	},
 
 	async getSubreddit(subreddit: string) {
