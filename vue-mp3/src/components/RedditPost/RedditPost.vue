@@ -1,40 +1,42 @@
-/* eslint-disable vue/require-default-prop */
 <template>
-  <!-- 1:57 -->
-  <div class="col s12">
-    <div class="card post" v-if="post">
-      <div class="card-content title-info">
-        <span class="card-title vertical-center">
-          <span class="new badge blue white-text score">{{ post.score }}</span>
-          {{ post.title }}</span
+  <div class="row">
+    <div class="col s12">
+      <div class="card post" v-if="post">
+        <div class="card-content title-info">
+          <span class="card-title vertical-center">
+            <span class="new badge blue white-text score">{{
+              post.score
+            }}</span>
+            {{ post.title }}</span
+          >
+          <p>
+            Posted {{ postTime }} by
+            <a :href="`https://www.reddit.com/u/${post.author}`">{{
+              post.author
+            }}</a>
+          </p>
+        </div>
+        <div
+          class="card-image waves-effect waves-block waves-light"
+          v-if="isImage"
         >
-        <p>
-          Posted {{ postTime }} by
-          <a :href="`https://www.reddit.com/u/${post.author}`">{{
-            post.author
-          }}</a>
-        </p>
-      </div>
-      <div
-        class="card-image waves-effect waves-block waves-light"
-        v-if="isImage"
-      >
-        <img class="activator" :src="post.url" />
-      </div>
-      <div
-        class="card-image waves-effect waves-block waves-light"
-        v-if="isVideo"
-      >
-        <video class="activator video" controls muted autoplay loop>
-          <source :type="`video/mp4`" :src="videoUrl" />
-        </video>
-      </div>
-      <div class="card-content">
-        <p>
-          <a :href="`https://www.reddit.com/${post.permalink}`">{{
-            post.num_comments
-          }}</a>
-        </p>
+          <img class="activator" :src="post.url" />
+        </div>
+        <div
+          class="card-image waves-effect waves-block waves-light"
+          v-if="isVideo"
+        >
+          <video class="activator video" controls muted autoplay loop>
+            <source :type="`video/mp4`" :src="videoUrl" />
+          </video>
+        </div>
+        <div class="card-content">
+          <p>
+            <a :href="`https://www.reddit.com/${post.permalink}`">{{
+              post.num_comments
+            }}</a>
+          </p>
+        </div>
       </div>
     </div>
   </div>

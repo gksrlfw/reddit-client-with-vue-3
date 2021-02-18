@@ -11,9 +11,8 @@
             class="autocomplete"
             autocomplete="off"
           />
-          <label class="label-icon" for="search"
-            ><i class="material-icons">search</i></label
-          >
+          <label class="label-icon" for="search">
+            <i class="material-icons">search</i></label>
           <i class="material-icons">close</i>
         </div>
       </form>
@@ -23,12 +22,13 @@
 
 <script>
 import { onMounted, ref, watch } from "vue";
+import { useRouter } from 'vue-router';
 import M from "@/../public/js/materialize.js";
 import api from "@/apis/api.ts";
-import state from "@/store/diy";
 
 export default {
   setup() {
+    const router = useRouter();
     const searchTerm = ref("");
     const subreddit = ref(null);
     let instances;
@@ -37,8 +37,12 @@ export default {
       instances = M.Autocomplete.init(subreddit.value, {
         data: {},
         onAutocomplete(result) {
-          console.log(result);
-          state.subreddit.value = `r/${result}`;
+          router.push({
+            name: 'Main',
+            params: {
+              subreddit: result
+            }
+          });
         }
       });
 
@@ -68,8 +72,14 @@ export default {
     });
 
     const updateSubreddit = () => {
+      console.log('updated: ', searchTerm.value);
       clearTimeout(debounceTimeout);
-      state.subreddit.value = `r/${searchTerm.value}`;
+      router.push({
+            name: 'Main',
+            params: {
+              subreddit: searchTerm.value
+            }
+          });
       if (instances) instances.close();
     };
 
