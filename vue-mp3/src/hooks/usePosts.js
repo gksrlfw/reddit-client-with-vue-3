@@ -1,7 +1,8 @@
 import { reactive, watch } from "vue";
-import api from "@/lib/api.js";
+import SearchPostApi from "@/lib/SearchPostApi";
 
 export default function usePosts(subreddit, params = {}) {
+  const searchPostApi = new SearchPostApi();
   const postsState = reactive({
     loading: false,
     error: "",
@@ -15,7 +16,7 @@ export default function usePosts(subreddit, params = {}) {
       postsState.error = "";
       postsState.data = [];
 
-      const response = await api.getPosts(subreddit.value, params);
+      const response = await searchPostApi.setSearch(subreddit.value, params);
       postsState.data = response.data.children;
     } catch (error) {
       postsState.error = error.message || "Error loading posts.";

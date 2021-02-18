@@ -1,8 +1,9 @@
 import { reactive, watch } from "vue";
 
-import api from "@/lib/api.js";
+import SearchPostInfoApi from "@/lib/SearchPostInfoApi";
 
 export default function useSubreddit(subreddit) {
+  const searchPostInfoApi = new SearchPostInfoApi();
   const state = reactive({
     loading: false,
     error: "",
@@ -17,7 +18,7 @@ export default function useSubreddit(subreddit) {
       state.error = "";
       state.data = null;
       try {
-        const data = await api.getSubreddit(subreddit.value);
+        const data = await searchPostInfoApi.setSearch(subreddit.value);
         state.data = data;
       } catch (error) {
         state.error = error.message;

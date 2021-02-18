@@ -6,7 +6,7 @@
         <label class="label-icon" for="search">
           <i class="material-icons">search</i>
         </label>
-        <form @submit.prevent="updateSubreddit" class="form-box col s11">
+        <form @submit.prevent="updateSubreddit" class="form-box col s6">
           <div class="input-field">
             <input
               id="subredditInput"
@@ -19,30 +19,57 @@
             />
           </div>
         </form>
+        <div class="col s3">
+          <button
+            data-target="modal1"
+            class="btn modal-trigger"
+            @click="openLoginModal = !openLoginModal"
+          >
+            LOGIN
+          </button>
+
+          <button
+            data-target="modal2"
+            class="btn modal-trigger"
+            @click="openRegisterModal = !openRegisterModal"
+          >
+            SIGN IN
+          </button>
+        </div>
       </div>
     </div>
   </nav>
+  <LoginModal v-if="openLoginModal" />
+  <RegisterModal v-if="openRegisterModal" />
 </template>
 
 <script>
 import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { instances, init } from "@/components/NavBar/init";
-import api from "@/lib/api.ts";
-import palette from "@/lib/palette";
+import SearchPostApi from "@/lib/SearchPostApi";
+import LoginModal from "@/components/Auth/LoginModal.vue";
+import RegisterModal from "@/components/Auth/RegisterModal.vue";
 
 export default {
+  components: {
+    LoginModal,
+    RegisterModal
+  },
   setup() {
+    const searchPostApi = new SearchPostApi();
     const router = useRouter();
     const searchTerm = ref("");
     const subreddit = ref(null);
+    const openLoginModal = ref(false);
+    const openRegisterModal = ref(false);
     let debounceTimeout;
 
     onMounted(() => {
       init(subreddit, router);
       async function getResult() {
         if (searchTerm.value.length < 3) return;
-        const response = await api.getPosts("search", {
+        const response = await searchPostApi.setSearch("search", {
           q: searchTerm.value,
           type: "sr"
         });
@@ -65,8 +92,8 @@ export default {
     });
 
     function updateSubreddit() {
-      console.log("updateSubreddit", instances);
       clearTimeout(debounceTimeout);
+      searchPostApi.abort();
       router.push({
         name: "Main",
         params: {
@@ -74,14 +101,21 @@ export default {
         }
       });
       if (instances) instances.close();
-      console.log("asdfasdf");
     }
+
+    // function openLoginModal() {
+
+    //   // const elems = document.querySelectorAll(".modal");
+    //   // const instance = M.Modal.init(elems);
+    //   // console.log(instance);
+    // }
 
     return {
       searchTerm,
       subreddit,
       updateSubreddit,
-      palette
+      openLoginModal,
+      openRegisterModal
     };
   }
 };
@@ -95,7 +129,7 @@ export default {
 }
 .navBar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 .input-box {
