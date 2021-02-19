@@ -11,7 +11,7 @@
     </section>
 
     <!-- reddit post -->
-    <section v-if="postsInfo && posts">
+    <section v-if="postsInfo && posts" class="half">
       <LineSpinner v-if="postsInfo.loading" />
       <ErrorComponent :error="postsInfo.error" v-if="postsInfo.error" />
       <RedditPost :post="post" v-for="post in posts" :key="post.id" />

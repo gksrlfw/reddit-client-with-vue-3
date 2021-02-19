@@ -22,3 +22,18 @@ export function smoothScroll(targets, duration) {
 
   requestAnimationFrame(animation);
 }
+
+export function smooth() {
+  console.log("asdfasdf");
+  let stop;
+  function render() {
+    console.log(0, window.scrollY);
+    if (window.scrollY > 0) {
+      const a = window.scrollY - 10;
+      window.scrollTo(0, a);
+      stop = requestAnimationFrame(render);
+    }
+  }
+
+  render();
+}

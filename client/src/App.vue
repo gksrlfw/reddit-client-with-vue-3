@@ -31,4 +31,8 @@ body {
   height: 100%;
   // overflow-y: scroll;
 }
+.half {
+  width: 70%;
+  margin: 0 auto;
+}
 </style>

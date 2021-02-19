@@ -5,14 +5,11 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
 export default {
   setup() {
-    onMounted(() => window.scrollTo(0, 0));
     function goTop() {
-      console.log("asdf");
       try {
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       } catch (err) {
         console.error(err);
       }
@@ -27,7 +24,7 @@ export default {
 .fixed {
   position: sticky;
   float: right;
-  left: 10px;
-  bottom: 10px;
+  right: 2rem;
+  bottom: 2rem;
 }
 </style>

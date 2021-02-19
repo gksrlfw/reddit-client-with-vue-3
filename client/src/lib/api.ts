@@ -6,7 +6,6 @@ export default {
 		const url = `https://www.reddit.com/${subreddit}.json?${urlParams}`;
 		const response = await fetch(url, { headers: { accept: 'application/json' }});
 		const data: RedditPostResponse = await response.json();
-		console.log('11111111111111111', data);
 		
 		if(data instanceof Response)  {
 			const error = new Error('Faild to get posts.');

@@ -1,7 +1,7 @@
 <template>
   <nav>
     <div class="nav-wrapper grey lighten-1 ">
-      <div class="container nav-bar">
+      <div class="container nav-bar half">
         <h5 class="black-text title">
           <router-link
             :to="{
@@ -26,7 +26,7 @@
             />
           </div>
         </form>
-        <div class="">
+        <div class="modal-btn">
           <button data-target="login" class="btn modal-trigger">
             LOGIN
           </button>
@@ -114,11 +114,12 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-// .title {
-//   padding: 0px;
-//   margin: 0px;
-//   margin-right: 3rem;
-// }
+.title {
+  padding: 0px;
+  margin: 0px;
+  margin-right: 2rem;
+  padding-bottom: 0.3rem;
+}
 .input-box {
   padding-left: 2rem !important;
 }
@@ -126,5 +127,13 @@ export default {
   height: 3rem;
   width: 50%;
   padding-left: 1rem;
+}
+.modal-btn {
+  margin-left: 3rem;
+}
+@media screen and (max-width: 1300px) {
+  .form-box {
+    display: none !important;
+  }
 }
 </style>

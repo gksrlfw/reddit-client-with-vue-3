@@ -24,9 +24,7 @@ export default {
     RedditPostContent
   },
   setup() {
-
-    return {
-    };
+    return {};
   }
 };
 </script>
@@ -56,7 +54,7 @@ export default {
 
 .content-box {
   padding: 0px;
-  padding-right: 1rem;
+  padding-right: 2rem;
 }
 
 .video {
