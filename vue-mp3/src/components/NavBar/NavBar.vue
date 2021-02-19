@@ -1,12 +1,19 @@
 <template>
   <nav>
-    <div class="nav-wrapper grey lighten-1">
-      <div class="container row navBar">
-        <h5 class="black-text title col s1">Reddit</h5>
-        <label class="label-icon" for="search">
-          <i class="material-icons">search</i>
-        </label>
-        <form @submit.prevent="updateSubreddit" class="form-box col s6">
+    <div class="nav-wrapper grey lighten-1 ">
+      <div class="container nav-bar">
+        <h5 class="black-text title">
+          <router-link
+            :to="{
+              name: 'Main',
+              params: {
+                subreddit: 'all'
+              }
+            }"
+            >Reddit</router-link
+          >
+        </h5>
+        <form @submit.prevent="updateSubreddit" class="form-box">
           <div class="input-field">
             <input
               id="subredditInput"
@@ -19,34 +26,25 @@
             />
           </div>
         </form>
-        <div class="col s3">
-          <button
-            data-target="modal1"
-            class="btn modal-trigger"
-            @click="openLoginModal = !openLoginModal"
-          >
+        <div class="">
+          <button data-target="login" class="btn modal-trigger">
             LOGIN
           </button>
-
-          <button
-            data-target="modal2"
-            class="btn modal-trigger"
-            @click="openRegisterModal = !openRegisterModal"
-          >
+          <button data-target="register" class="btn modal-trigger">
             SIGN IN
           </button>
         </div>
       </div>
     </div>
   </nav>
-  <LoginModal v-if="openLoginModal" />
-  <RegisterModal v-if="openRegisterModal" />
+  <LoginModal />
+  <RegisterModal />
 </template>
 
 <script>
 import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { instances, init } from "@/components/NavBar/init";
+import { init } from "@/components/Materialize/AutoComplete";
 import SearchPostApi from "@/lib/SearchPostApi";
 import LoginModal from "@/components/Auth/LoginModal.vue";
 import RegisterModal from "@/components/Auth/RegisterModal.vue";
@@ -61,12 +59,11 @@ export default {
     const router = useRouter();
     const searchTerm = ref("");
     const subreddit = ref(null);
-    const openLoginModal = ref(false);
-    const openRegisterModal = ref(false);
-    let debounceTimeout;
 
+    let instances;
+    let debounceTimeout;
     onMounted(() => {
-      init(subreddit, router);
+      instances = init(subreddit, router);
       async function getResult() {
         if (searchTerm.value.length < 3) return;
         const response = await searchPostApi.setSearch("search", {
@@ -90,10 +87,9 @@ export default {
         }
       );
     });
-
-    function updateSubreddit() {
-      clearTimeout(debounceTimeout);
+    const updateSubreddit = () => {
       searchPostApi.abort();
+      clearTimeout(debounceTimeout);
       router.push({
         name: "Main",
         params: {
@@ -101,43 +97,34 @@ export default {
         }
       });
       if (instances) instances.close();
-    }
-
-    // function openLoginModal() {
-
-    //   // const elems = document.querySelectorAll(".modal");
-    //   // const instance = M.Modal.init(elems);
-    //   // console.log(instance);
-    // }
+    };
 
     return {
       searchTerm,
       subreddit,
-      updateSubreddit,
-      openLoginModal,
-      openRegisterModal
+      updateSubreddit
     };
   }
 };
 </script>
 
 <style lang="scss">
-.title {
-  padding: 0px;
-  margin: 0px;
-  margin-right: 3rem;
-}
-.navBar {
+.nav-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+// .title {
+//   padding: 0px;
+//   margin: 0px;
+//   margin-right: 3rem;
+// }
 .input-box {
-  border-radius: 50%;
   padding-left: 2rem !important;
 }
 .form-box {
   height: 3rem;
+  width: 50%;
   padding-left: 1rem;
 }
 </style>

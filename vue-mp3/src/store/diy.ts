@@ -1,6 +1,8 @@
 import { ref } from "vue";
 
-const subreddit = ref('r/aww');
-export default {
-    subreddit
+export let count = ref(0);
+
+export function setC(page: any) {
+    count = page;
 }
+

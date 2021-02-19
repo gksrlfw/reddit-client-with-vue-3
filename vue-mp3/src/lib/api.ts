@@ -1,4 +1,4 @@
-import { RedditPostResponse } from "@/interface/RedditPostResponse";
+import { RedditPostResponse } from "@/interface/RedditPost/RedditPostResponse";
 
 export default {
 	async getPosts(subreddit: string, params?: string): Promise<RedditPostResponse> {

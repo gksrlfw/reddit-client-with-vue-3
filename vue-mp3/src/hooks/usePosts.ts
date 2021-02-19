@@ -1,6 +1,6 @@
 import api from "@/lib/api";
 import { RedditPostState } from "@/interface/RedditPostState";
-import { RedditPostResponse } from "@/interface/RedditPostResponse";
+import { RedditPostResponse } from "@/interface/RedditPost/RedditPostResponse";
 import { reactive, Ref, UnwrapRef, watch } from "vue";
 
 // subreddit: ref

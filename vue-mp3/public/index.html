@@ -7,19 +7,17 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <link type="text/css" rel="stylesheet" href="./css/materialize.min.css"  media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        
+
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
-  <body>
+  <body class="grey lighten-3">
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app" class="grey lighten-3"></div>
-    <script type="text/javascript" src="js/materialize.js"></script>
+    <div id="app"></div>
+    <!-- <script type="text/javascript" src="js/materialize.js"></script> -->
   </body>
 
 </html>

@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import { computed, watch } from "vue";
+import { computed, watch, onMounted, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import usePosts from "@/hooks/usePosts.js";
 import useSubreddit from "@/hooks/useSubreddit.js";
@@ -28,7 +28,7 @@ import CircleSpinner from "@/components/Spinner/CircleSpinner.vue";
 import ErrorComponent from "@/components/Error/ErrorComponent.vue";
 import RedditPost from "@/components/RedditPost/RedditPost.vue";
 import RedditPostInfo from "@/components/RedditPostInfo/RedditPostInfo.vue";
-
+import { throttle, onScrollWithInfinity } from "@/lib/InfiniteScroll";
 export default {
   components: {
     RedditPost,
@@ -40,7 +40,7 @@ export default {
   setup() {
     const route = useRoute();
     const subredditUrl = computed(() => `/r/${route.params.subreddit}`);
-    const postsInfo = usePosts(subredditUrl);
+    let postsInfo = usePosts(subredditUrl);
     const subredditInfo = useSubreddit(subredditUrl);
 
     watch(
@@ -54,6 +54,13 @@ export default {
       postsInfo.data
         .filter(child => !child.data.over_18)
         .map(child => child.data)
+    );
+    window.addEventListener(
+      "scroll",
+      throttle(async () => {
+        const newPost = await onScrollWithInfinity(subredditUrl);
+        if (newPost) postsInfo = newPost;
+      }, 200)
     );
 
     return {

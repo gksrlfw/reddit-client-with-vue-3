@@ -1,5 +1,4 @@
 const BASE_URL = `https://www.reddit.com`;
-
 export default class SearchPostApi {
   constructor() {
     this.controller = new AbortController();
@@ -10,9 +9,11 @@ export default class SearchPostApi {
     this.controller = new AbortController();
   }
 
-  async setSearch(subreddit, params) {
+  async setSearch(subreddit, params, page) {
+    // params = { ...params, limit: page };
     const urlParams = new URLSearchParams(params);
     const url = `${BASE_URL}/${subreddit}.json?${urlParams}`;
+    console.log(url, page);
     const response = await fetch(url, {
       headers: {
         accept: "application/json"
