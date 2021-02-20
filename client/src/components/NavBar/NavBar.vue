@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav class="">
     <div class="nav-wrapper grey lighten-1 ">
       <div class="container nav-bar half">
         <h5 class="black-text title">

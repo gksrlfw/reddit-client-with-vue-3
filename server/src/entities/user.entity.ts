@@ -1,7 +1,7 @@
 import { classToPlain, Exclude } from "class-transformer";
 import * as bcrypt from 'bcrypt';
 import { IsEmail } from "class-validator";
-import { BeforeInsert, Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany } from "typeorm";
+import { BeforeInsert, Column, Entity } from "typeorm";
 import { AbstractEntity } from "./abstract-entity";
 
 @Entity('users')
@@ -14,28 +14,18 @@ export class UserEntity extends AbstractEntity {
     username: string;
 
     @Column()
-    @Exclude() 
+    @Exclude()
     password: string;
 
-    @Column({ default: '' })
-    bio: string;
-
-    @Column({ default: null, nullable: true })
-    image: string | null;
-
-
-    // For encoding password
-    // Do hashing before insert password
     @BeforeInsert()
     async hashPassword() {
         this.password = await bcrypt.hash(this.password, 10);
     }
 
     async comparePassword(attempt: string) {
-        return await bcrypt.compare(attempt, this.password);    
+        return await bcrypt.compare(attempt, this.password);
     }
 
-    // Search what the function!
     toJSON() {
         return classToPlain(this);
     }

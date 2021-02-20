@@ -1,6 +1,6 @@
 <template lang="">
-  <!-- <div class="card-image waves-effect waves-block waves-light" v-if="isImage"> -->
-  <div class="card-image waves-block waves-light" v-if="isImage">
+  <div class="card-image waves-effect waves-block waves-light" v-if="isImage">
+  <!-- <div class="card-image waves-block waves-light" v-if="isImage"> -->
     <img class="activator materialboxed" @click="imgc" :data-lazy="post.url" />
   </div>
   <div class="card-image waves-effect waves-block waves-light" v-if="isVideo">

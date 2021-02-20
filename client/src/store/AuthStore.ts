@@ -1,6 +1,7 @@
 import { LoginRequest } from "@/interface/auth/LoginRequest";
 import { RegisterRequest } from "@/interface/auth/RegisterRequest";
 import { reactive } from "vue";
+import { BASE_URL } from "./Baseurl";
 
 const fetchOptions = { 
   method: 'POST',
@@ -26,15 +27,21 @@ export default class AuthStore {
 
   public async login(loginRequest: LoginRequest) {
     try {
-      const response = await fetch("", { 
+      const response = await fetch(`${BASE_URL}/auth/login`, { 
         ...fetchOptions, 
+        mode: "cors",
+        credentials: 'same-origin',
         body: JSON.stringify(loginRequest) 
       });
-      if(response.ok) {
+      // if(response.ok) {
         // TODO
-      }
+        console.log(response);
+        
+      // }
     } catch (err) {
       console.error(err);
+      console.log('?????');
+      
     }
   }
 

@@ -35,4 +35,8 @@ body {
   width: 70%;
   margin: 0 auto;
 }
+.fixed {
+  position: sticky;
+  top: 0;
+}
 </style>

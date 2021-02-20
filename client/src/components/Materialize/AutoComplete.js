@@ -1,5 +1,6 @@
 import M from "@/../public/js/materialize.js";
 
+
 let instance;
 export function init(subreddit, router) {
   instance = M.Autocomplete.init(subreddit.value, {
