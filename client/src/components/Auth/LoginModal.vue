@@ -47,8 +47,8 @@ export default {
     const password = ref("");
 
     onMounted(() => initModal("#login"));
-    function login() {
-      authStore.login({ email, password });
+    async function login() {
+      await authStore.login({ email, password });
     }
 
     return {

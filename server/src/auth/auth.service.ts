@@ -15,7 +15,12 @@ export class AuthService {
 
     async register(credentials: RegisterDTO): Promise<AuthResponse> {
         try {
+            console.log('register', credentials);
+            // console.log(this.userRepository);
+            
             const user = this.userRepository.create(credentials);
+            console.log('user', user);
+            
             await user.save();
             const payload = { username: user.username };
             const token = this.jwtService.sign(payload);

@@ -26,13 +26,17 @@
             />
           </div>
         </form>
-        <div class="modal-btn">
+        <!-- login button -->
+        <div class="modal-btn" v-if="!isLogin">
           <button data-target="login" class="btn modal-trigger">
             LOGIN
           </button>
           <button data-target="register" class="btn modal-trigger">
             SIGN IN
           </button>
+        </div>
+        <div v-else>
+          WELCOME
         </div>
       </div>
     </div>
@@ -42,7 +46,7 @@
 </template>
 
 <script>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, toRef, watch } from "vue";
 import { useRouter } from "vue-router";
 import { init } from "@/components/Materialize/AutoComplete";
 import SearchPostApi from "@/lib/SearchPostApi";
@@ -50,15 +54,22 @@ import LoginModal from "@/components/Auth/LoginModal.vue";
 import RegisterModal from "@/components/Auth/RegisterModal.vue";
 
 export default {
+  props: {
+    isLogin: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
     LoginModal,
     RegisterModal
   },
-  setup() {
+  setup(props) {
     const searchPostApi = new SearchPostApi();
     const router = useRouter();
     const searchTerm = ref("");
     const subreddit = ref(null);
+    // const { isLogin } = toRefs(props);
 
     let instances;
     let debounceTimeout;
@@ -102,7 +113,7 @@ export default {
     return {
       searchTerm,
       subreddit,
-      updateSubreddit
+      updateSubreddit,
     };
   }
 };
