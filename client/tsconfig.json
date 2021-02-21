@@ -32,7 +32,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/components/Auth/ModalControl.js", "src/components/TopButton/SmoothScroll.js"  ],
+, "src/components/Auth/ModalControl.js", "src/components/TopButton/SmoothScroll.js", "src/components/Materialize/Material.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,5 +1,5 @@
 <template lang="">
-  <div id="register" class="modal">
+  <div id="register" class="modal bl">
     <div class="modal-content">
       <h4>
         SIGN UP<button class="btn-flat right">
@@ -14,57 +14,72 @@
       <div class="divider divide"></div>
 
       <form class="local-login">
-        <div class="input-field col s6">
-          <input type="text" class="validate" v-model="email" />
-          <label for="email">email</label>
+        <div class="input-field col s6 input-bottom">
+          <input id="emailR" type="text" class="validate" v-model="email" />
+          <label for="emailR">email</label>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s6 input-bottom">
           <input
+            id="passwordR"
             type="password"
             class="validate"
             v-model="password"
             autocomplete="on"
           />
-          <label for="password">password</label>
+          <label for="passwordR">password</label>
         </div>
-        <div class="input-field col s6">
-          <input type="text" class="validate" v-model="username" />
-          <label for="username">username</label>
+        <div class="input-field col s6 input-bottom">
+          <input id="usernameR" type="text" class="validate" v-model="username" />
+          <label for="usernameR">username</label>
         </div>
       </form>
     </div>
     <div class="modal-footer">
-      <a class="waves-effect waves-green btn-flat" @click="register(email, password, username); closeModal('#register');">SIGN UP</a>
+      <a class="btn-flat" @click="onRegister(email, password, username)">SIGN UP</a>
     </div>
   </div>
 </template>
 <script>
-import { onMounted, ref } from "vue";
-import AuthStore from "@/store/AuthStore";
+import { onMounted, ref, toRefs } from "vue";
 import { initModal, closeModal } from "@/components/Materialize/Modal";
 
 export default {
   props: {
     register: Function
   },
-  setup() {
-    const authStore = new AuthStore();
+  setup(props) {
     const email = ref("");
     const password = ref("");
     const username = ref("");
+    const { register } = toRefs(props);
 
     onMounted(() => initModal("#register"));
+
+    async function onRegister(email, password) {
+      try {
+        const isRegisterError = await register.value(email, password, username);
+        if(isRegisterError.value) return alert('Register failed');
+        closeModal("#register");
+      }
+      catch(err) {
+        console.error(err);
+      }
+    }
 
     return {
       email,
       password,
       username,
       closeModal,
+      onRegister
     };
   }
 };
 </script>
 <style lang="scss">
+.input-bottom {
+  border-bottom: 1px solid rgb(190, 196, 183);
+}
 .content {
   margin-bottom: 3rem;
 }

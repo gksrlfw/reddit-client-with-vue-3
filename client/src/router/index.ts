@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Main from "@/views/SubReddit.vue";
-import Test from "@/views/test.vue";
+import Error from "@/views/Error.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,9 +9,9 @@ const routes: Array<RouteRecordRaw> = [
     component: Main
   },
   {
-    path: "/test",
-    name: "Test",
-    component: Test
+    path: "/:pathMatch(.*)*",
+    name: "Error",
+    component: Error
   }
 ];
 

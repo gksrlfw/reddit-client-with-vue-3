@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        hello
+        404 에러
     </div>
 </template>
 <script>

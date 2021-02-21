@@ -1,5 +1,5 @@
 <template lang="">
-  <div id="login" class="modal">
+  <div id="login" class="modal bl">
     <div class="modal-content">
       <h4>
         LOGIN<button class="btn-flat right">
@@ -14,45 +14,59 @@
       <div class="divider divide"></div>
 
       <form class="local-login">
-        <div class="input-field col s6">
-          <input type="text" class="validate" v-model="email" />
-          <label for="email">email</label>
+        <div class="input-field col s6 input-bottom">
+          <input id="emailL" type="text" class="validate" v-model="email" />
+          <label for="emailL">email</label>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s6 input-bottom">
           <input
+            id="passwordL"
             type="password"
-            class="validate"
+            class="validate bl"
             v-model="password"
             autocomplete="on"
           />
-          <label for="password">password</label>
+          <label for="passwordL">password</label>
         </div>
       </form>
     </div>
     <!-- social login -->
     <div class="modal-footer">
-      <a class="waves-effect waves-green btn-flat" @click="login(email, password); closeModal('#login');">LOGIN</a>
+      <a class="btn-flat right" @click="onLogin(email, password)">LOGIN</a>
     </div>
   </div>
 </template>
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, toRefs } from "vue";
 import { initModal, closeModal } from "@/components/Materialize/Modal";
 
 export default {
   props: {
     login: Function
   },
-  setup() {
+  setup(props) {
     const email = ref("");
     const password = ref("");
+    const { login } = toRefs(props);
     onMounted(() => initModal("#login"));
-  
+
+    async function onLogin(email, password) {
+      try {
+        const isLoginError = await login.value(email, password);
+        console.log('isLoginError', isLoginError, isLoginError.value);
+        if(isLoginError.value) return alert('Login failed');
+        closeModal("#login");
+      }
+      catch(err) {
+        console.error(err);
+      }
+    }
 
     return {
       email,
       password,
-      closeModal
+      closeModal,
+      onLogin
     };
   }
 };
@@ -78,5 +92,8 @@ export default {
 .local-login {
   margin-top: 3rem;
   width: 50%;
+}
+.bl {
+  color: black;
 }
 </style>

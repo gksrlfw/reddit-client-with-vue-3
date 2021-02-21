@@ -1,6 +1,6 @@
 <template lang="">
   <div class="modal-btn" v-if="!authState.isLogin.value">
-    <button data-target="login" class="btn modal-trigger">
+    <button data-target="login" class="btn modal-trigger mr">
       LOGIN
     </button>
     <button data-target="register" class="btn modal-trigger">
@@ -33,3 +33,8 @@ export default {
   }
 }
 </script>
+<style lang="css">
+.mr {
+  margin-right: 0.5rem;
+}
+</style>

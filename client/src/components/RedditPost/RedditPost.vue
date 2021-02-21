@@ -3,7 +3,7 @@
     <RedditPostSide :post="post" />
     <div class="content-box">
       <RedditPostTitle :post="post" />
-      <RedditPostImage :post="post" />
+      <RedditPostImage :post="post" :index="index" />
       <RedditPostContent :post="post" />
     </div>
   </div>
@@ -15,7 +15,8 @@ import RedditPostImage from "@/components/RedditPost/RedditPostImage.vue";
 import RedditPostContent from "@/components/RedditPost/RedditPostContent.vue";
 export default {
   props: {
-    post: Object
+    post: Object,
+    index: Number
   },
   components: {
     RedditPostSide,
@@ -31,7 +32,6 @@ export default {
 <style lang="scss">
 .Reddit {
   display: flex;
-  // align-items: center;
 }
 .score {
   display: flex;

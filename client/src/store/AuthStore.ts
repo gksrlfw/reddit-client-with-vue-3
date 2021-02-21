@@ -1,7 +1,7 @@
+import { computed, reactive, toRefs } from "vue";
 import { LoginRequest } from "@/interface/auth/LoginRequest";
 import { LoginResponse } from "@/interface/auth/LoginResponse";
 import { RegisterRequest } from "@/interface/auth/RegisterRequest";
-import { reactive, toRefs } from "vue";
 import { BASE_URL, fetchOptions, TOKEN } from "./GlobalVariablel";
 
 export default class AuthStore {
@@ -30,22 +30,24 @@ export default class AuthStore {
       if(response.ok) {
         // TODO
         const data = await response.json();
-        console.log(response, data);
         sessionStorage.setItem(TOKEN, data.token);
-        this.succeedLogin({ username: data.username, email: data.email })
+        this.succeedLogin({ username: data.username, email: data.email });
+        return this.getAuthState();
       }
-      return this.getAuthState();
-    } catch (err) {
+      this.failedLogin();
+    } 
+    catch (err) {
       console.error(err);
+      this.failedLogin();
     }
   }
 
   public async register(registerRequest: RegisterRequest) {
     try {
       registerRequest = {
-        email: 'gksrlfw1@naver.com',
+        email: 'gksrlfw123@naver.com',
         password: 'password',
-        username: 'gksrlf1'
+        username: 'gksrlf123'
       };
       const response = await fetch(`${BASE_URL}/auth/register`, { 
         ...fetchOptions, 
@@ -54,9 +56,15 @@ export default class AuthStore {
       });
       // TODO
       console.log(response);
-      
-    } catch (err) {
+      if(response.ok) {
+        return this.succeedRegister();
+      }
+      this.failedRegister();
+    } 
+    catch (err) {
       console.error(err);
+      this.failedRegister();
+
     }
   }
 
@@ -78,8 +86,6 @@ export default class AuthStore {
   public logout() {
     if(sessionStorage.getItem(TOKEN)) sessionStorage.removeItem(TOKEN);
     this.clearState();
-    console.log('hello');
-    
   }
 
   private clearState() {
@@ -89,7 +95,7 @@ export default class AuthStore {
     this.authState.loginResponse = {};
   }
 
-  private succeedLogin(loginResponse: LoginResponse) {
+  private succeedLogin(loginResponse: LoginResponse) {    
     this.authState.loginResponse = loginResponse;
     this.authState.isLogin = true;
   }

@@ -71,3 +71,8 @@ export default {
   }
 }
 </script>
+<style lang="css">
+#subredditInput {
+  border-radius: 1rem;
+}
+</style>

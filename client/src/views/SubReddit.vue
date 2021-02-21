@@ -3,7 +3,7 @@
     <!-- reddit info -->
     <section class="info">
       <CircleSpinner v-if="subredditInfo.loading" />
-      <ErrorComponent :error="subredditInfo.error" v-if="subredditInfo.error" />
+      <!-- <ErrorComponent :error="subredditInfo.error" v-if="subredditInfo.error" /> -->
       <RedditPostInfo
         :subreddit-info="subredditInfo"
         v-if="subredditInfo && !subredditInfo.error && !subredditInfo.loading"
@@ -14,7 +14,7 @@
     <section v-if="postsInfo && posts" class="half">
       <LineSpinner v-if="postsInfo.loading" />
       <ErrorComponent :error="postsInfo.error" v-if="postsInfo.error" />
-      <RedditPost :post="post" v-for="post in posts" :key="post.id" />
+      <RedditPost :post="post" :index="index" v-for="(post, index) in posts" :key="post.id" />
     </section>
   </div>
 </template>
@@ -60,7 +60,7 @@ export default {
       throttle(async () => {
         const newPost = await onScrollWithInfinity(subredditUrl);
         if (newPost) postsInfo = newPost;
-      }, 200)
+      }, 100)
     );
 
     return {

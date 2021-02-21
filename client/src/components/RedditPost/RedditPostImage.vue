@@ -1,7 +1,8 @@
 <template lang="">
-  <div class="card-image waves-effect waves-block waves-light" v-if="isImage">
-  <!-- <div class="card-image waves-block waves-light" v-if="isImage"> -->
-    <img class="activator materialboxed" @click="imgc" :data-lazy="post.url" />
+  <!-- <div class="card-image waves-effect waves-block waves-light" v-if="isImage"> -->
+  <div class="card-image waves-block waves-light" v-if="isImage">
+    <img class="activator materialboxed" @click="imgc" :src="post.url" :data-lazy="post.url" v-if="index < 5" />
+    <img class="activator materialboxed" @click="imgc" :data-lazy="post.url" v-else />
   </div>
   <div class="card-image waves-effect waves-block waves-light" v-if="isVideo">
     <video class="activator video" controls muted autoplay loop>
@@ -16,6 +17,9 @@ export default {
   props: {
     post: {
       type: Object
+    },
+    index: {
+      type: Number
     }
   },
   setup(props) {
@@ -23,23 +27,6 @@ export default {
 
     let instances;
     onMounted(() => (instances = initMaterialbox(".materialboxed")));
-
-    function imgc(e) {
-      instances.map((i, index) => {
-        // if (i.el === e.target) {
-        //   instances[index].open();
-        //   document.body.addEventListener("keydown", e => {
-        //     if (e.key === "Escape" || e.key === "escape") {
-        //       instances[index].close();
-        //     }
-        //   });
-        // }
-      });
-      //   openImage(e.target);
-      //   instance.open();
-      //   openImage(".materialboxed");
-    }
-
     const isVideo = computed(
       () =>
         (post.value.secure_media && post.value.secure_media.reddit_video) ||
@@ -59,11 +46,27 @@ export default {
         .join(".")
         .replace("..", ".");
     });
+
+    // function imgc(e) {
+    //   instances.map((i, index) => {
+    //     if (i.el === e.target) {
+    //       instances[index].open();
+    //       document.body.addEventListener("keydown", e => {
+    //         if (e.key === "Escape" || e.key === "escape") {
+    //           instances[index].close();
+    //         }
+    //       });
+    //     }
+    //   });
+    //   openImage(e.target);
+    //   instance.open();
+    //   openImage(".materialboxed");
+    // }
     return {
       isVideo,
       isImage,
       videoUrl,
-      imgc
+      // imgc
     };
   }
 };

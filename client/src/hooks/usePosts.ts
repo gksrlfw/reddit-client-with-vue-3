@@ -35,9 +35,6 @@ export default function usePosts<T>(subredditUrl: Ref<string>, params?: string) 
   // subredditUrl은 reactive가 아님.. watcheffect를 하면 reactive인 것들은 자동으로 해주는데
   // subredditUrl은 못해주니까 watch로 명시해줘야한다.
   // subredditUrl이 변하면 loadData를 실행한다
-  watch(subredditUrl, async () => await loadData(), { immediate: true });
-
-  console.log('22222222222222222222', postsState, subredditUrl.value);
-  
+  watch(subredditUrl, async () => await loadData(), { immediate: true });  
   return postsState;
 }
