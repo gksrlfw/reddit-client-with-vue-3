@@ -15,7 +15,7 @@ export async function login(email: string, password: string) {
 export async function register(email: string, password: string, username: string) {
   try {
     console.log('register', email, password, username);  
-    await authStore.login({ email: 'ads', password: 'ads' });
+    await authStore.register({ email: 'ads', password: 'ads', username: username });
   }
   catch(err) {
     console.error(err);
