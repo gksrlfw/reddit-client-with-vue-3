@@ -2,17 +2,7 @@ import { LoginRequest } from "@/interface/auth/LoginRequest";
 import { LoginResponse } from "@/interface/auth/LoginResponse";
 import { RegisterRequest } from "@/interface/auth/RegisterRequest";
 import { reactive, toRefs } from "vue";
-import { BASE_URL } from "./Baseurl";
-
-const fetchOptions = { 
-  method: 'POST',
-  // mode: "cors",
-  // credentials: "same-origin",
-  headers: {
-    'Content-Type': 'application/json'
-  }
-}
-
+import { BASE_URL, fetchOptions, TOKEN } from "./GlobalVariablel";
 
 export default class AuthStore {
   private authState = reactive({
@@ -34,13 +24,14 @@ export default class AuthStore {
       };
       const response = await fetch(`${BASE_URL}/auth/login`, { 
         ...fetchOptions, 
+        method: 'POST',
         body: JSON.stringify(loginRequest) 
       });
       if(response.ok) {
         // TODO
         const data = await response.json();
         console.log(response, data);
-        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem(TOKEN, data.token);
         this.succeedLogin({ username: data.username, email: data.email })
       }
       return this.getAuthState();
@@ -58,6 +49,7 @@ export default class AuthStore {
       };
       const response = await fetch(`${BASE_URL}/auth/register`, { 
         ...fetchOptions, 
+        method: 'POST',
         body: JSON.stringify(registerRequest) 
       });
       // TODO
@@ -69,7 +61,32 @@ export default class AuthStore {
   }
 
   public async refresh() {
-    const token = sessionStorage.getItem('token');
+    try {
+      const token = sessionStorage.getItem(TOKEN);
+      if(!token) return;
+      const response = await fetch(`${BASE_URL}/auth/refresh`, {
+        ...fetchOptions,
+        method: 'POST',
+        // TOKEN: token,
+      });
+    }
+    catch(err) {
+      console.error(err);
+    }
+  }
+
+  public logout() {
+    if(sessionStorage.getItem(TOKEN)) sessionStorage.removeItem(TOKEN);
+    this.clearState();
+    console.log('hello');
+    
+  }
+
+  private clearState() {
+    this.authState.isLogin = false;
+    this.authState.isLoginError = false;
+    this.authState.isRegisterError = false;
+    this.authState.loginResponse = {};
   }
 
   private succeedLogin(loginResponse: LoginResponse) {

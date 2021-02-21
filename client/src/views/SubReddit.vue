@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import { computed, watch, onMounted, onUnmounted } from "vue";
+import { computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import usePosts from "@/hooks/usePosts.js";
 import useSubreddit from "@/hooks/useSubreddit.js";

@@ -34,7 +34,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <a class="waves-effect waves-green btn-flat" @click="login">SIGN UP</a>
+      <a class="waves-effect waves-green btn-flat" @click="register(email, password, username); closeModal('#register');">SIGN UP</a>
     </div>
   </div>
 </template>
@@ -44,6 +44,9 @@ import AuthStore from "@/store/AuthStore";
 import { initModal, closeModal } from "@/components/Materialize/Modal";
 
 export default {
+  props: {
+    register: Function
+  },
   setup() {
     const authStore = new AuthStore();
     const email = ref("");
@@ -52,15 +55,11 @@ export default {
 
     onMounted(() => initModal("#register"));
 
-    function login() {
-      authStore.register({ email, password, username });
-    }
     return {
       email,
       password,
       username,
       closeModal,
-      login
     };
   }
 };

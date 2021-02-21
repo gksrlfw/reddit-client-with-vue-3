@@ -31,30 +31,27 @@
     </div>
     <!-- social login -->
     <div class="modal-footer">
-      <a class="waves-effect waves-green btn-flat" @click="login">LOGIN</a>
+      <a class="waves-effect waves-green btn-flat" @click="login(email, password); closeModal('#login');">LOGIN</a>
     </div>
   </div>
 </template>
 <script>
 import { onMounted, ref } from "vue";
-import AuthStore from "@/store/AuthStore";
 import { initModal, closeModal } from "@/components/Materialize/Modal";
 
 export default {
+  props: {
+    login: Function
+  },
   setup() {
-    const authStore = new AuthStore();
     const email = ref("");
     const password = ref("");
-
     onMounted(() => initModal("#login"));
-    async function login() {
-      await authStore.login({ email, password });
-    }
+  
 
     return {
       email,
       password,
-      login,
       closeModal
     };
   }

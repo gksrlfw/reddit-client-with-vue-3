@@ -10,7 +10,7 @@
                 subreddit: 'all'
               }
             }"
-            >Reddit</router-link
+            >REDDIT CLIENT!</router-link
           >
         </h5>
         <form @submit.prevent="updateSubreddit" class="form-box">
@@ -27,7 +27,7 @@
           </div>
         </form>
         <!-- login button -->
-        <div class="modal-btn" v-if="!isLogin">
+        <div class="modal-btn" v-if="!authState.isLogin.value">
           <button data-target="login" class="btn modal-trigger">
             LOGIN
           </button>
@@ -36,40 +36,34 @@
           </button>
         </div>
         <div v-else>
-          WELCOME
+          WELCOME {{ authState.loginResponse.value.username }}
+          <button class="btn" @click="logout">LOGOUT</button>
         </div>
       </div>
     </div>
   </nav>
-  <LoginModal />
-  <RegisterModal />
+  <LoginModal :login="login" />
+  <RegisterModal :register="register" />
 </template>
 
 <script>
-import { onMounted, ref, toRef, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { init } from "@/components/Materialize/AutoComplete";
 import SearchPostApi from "@/lib/SearchPostApi";
 import LoginModal from "@/components/Auth/LoginModal.vue";
 import RegisterModal from "@/components/Auth/RegisterModal.vue";
-
+import { login, register, authState, logout } from "@/components/NavBar/auth.ts";
 export default {
-  props: {
-    isLogin: {
-      type: Boolean,
-      default: false
-    }
-  },
   components: {
     LoginModal,
     RegisterModal
   },
-  setup(props) {
+  setup() {
     const searchPostApi = new SearchPostApi();
     const router = useRouter();
     const searchTerm = ref("");
     const subreddit = ref(null);
-    // const { isLogin } = toRefs(props);
 
     let instances;
     let debounceTimeout;
@@ -114,6 +108,10 @@ export default {
       searchTerm,
       subreddit,
       updateSubreddit,
+      authState,
+      login,
+      register,
+      logout
     };
   }
 };

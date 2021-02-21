@@ -1,12 +1,18 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import SubReddit from "@/views/SubReddit.vue";
+import Main from "@/views/SubReddit.vue";
+import Test from "@/views/test.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/r/:subreddit",
     name: "Main",
-    component: SubReddit
+    component: Main
   },
+  {
+    path: "/test",
+    name: "Test",
+    component: Test
+  }
 ];
 
 const router = createRouter({
