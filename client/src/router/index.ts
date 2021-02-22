@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Main from "@/views/SubReddit.vue";
+import Main from "@/views/Main.vue";
 import Error from "@/views/Error.vue";
 
 const routes: Array<RouteRecordRaw> = [

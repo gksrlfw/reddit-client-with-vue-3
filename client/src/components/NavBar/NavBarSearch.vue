@@ -62,6 +62,7 @@ export default {
         }
       });
       if (instances) instances.close();
+      searchTerm.value = "";
     };
     return {
       searchTerm,

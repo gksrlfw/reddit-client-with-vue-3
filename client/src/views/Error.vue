@@ -1,7 +1,7 @@
 <template lang="">
-    <div>
-        404 에러
-    </div>
+  <div>
+      404 에러
+  </div>
 </template>
 <script>
 export default {
