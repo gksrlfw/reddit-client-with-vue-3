@@ -1,5 +1,5 @@
 # Reddit client
-* Built Reddit client with reddit api and Vue 3 
+* Built Reddit client with reddit api, materialize css, and Vue 3
 * Added simple Jwt Authentication with nestjs (not working on surge)
 * See http://www.reddit-client.surge.sh
 ![aww](https://user-images.githubusercontent.com/50065692/108862037-36384880-7633-11eb-8974-23428ea1cc95.png)
